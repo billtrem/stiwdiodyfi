@@ -7,8 +7,5 @@ numReplicas = 1
 # Gunicorn must run from the venv created by Nixpacks
 startCommand = "/opt/venv/bin/gunicorn stiwdiodyfi.wsgi:application --bind 0.0.0.0:8000"
 
-# Release commands also use the same Python inside venv
-releaseCommand = """
-/opt/venv/bin/python manage.py migrate
-/opt/venv/bin/python manage.py create_admin
-"""
+# Release: MUST use && or the container crashes
+releaseCommand = "/opt/venv/bin/python manage.py migrate && /opt/venv/bin/python manage.py create_admin"
