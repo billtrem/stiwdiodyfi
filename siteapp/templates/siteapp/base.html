@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="{{ language|default:'en' }}">
+<head>
+    <meta charset="UTF-8">
+    <title>Stiwdio Dyfi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+<header class="site-header">
+
+    <!-- Logo -->
+    <div class="logo">
+        <img src="{% static 'stiwdio_dyfi_logo.png' %}" alt="Stiwdio Dyfi Logo">
+    </div>
+
+
+    <!-- Navigation -->
+    <nav class="top-nav" id="navMenu">
+        {% if language == "en" %}
+            <a href="/en/">Home</a>
+            <a href="/en/info/">Info</a>
+            <a href="/en/join/">Join</a>
+            <a href="/en/support/">Support</a>
+        {% else %}
+            <a href="/cy/">Hafan</a>
+            <a href="/cy/info/">Gwybodaeth</a>
+            <a href="/cy/join/">Ymuno</a>
+            <a href="/cy/support/">Cefnogi</a>
+        {% endif %}
+    </nav>
+
+    <!-- Language Switch -->
+    <div class="lang-switch">
+        {% if language == "en" %}
+            <a href="/cy/">Cymraeg</a>
+        {% else %}
+            <a href="/en/">English</a>
+        {% endif %}
+    </div>
+
+    <!-- Hamburger Icon -->
+    <div class="hamburger" onclick="toggleMenu()">
+        ☰
+    </div>
+
+</header>
+
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+    <p>© {% now "Y" %} Stiwdio Dyfi</p>
+</footer>
+
+<script>
+function toggleMenu() {
+    document.getElementById("navMenu").classList.toggle("open");
+}
+</script>
+
+</body>
+</html>

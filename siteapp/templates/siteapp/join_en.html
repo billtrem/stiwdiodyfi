@@ -1,0 +1,13 @@
+{% extends "siteapp/base.html" %}
+{% block content %}
+
+<section class="section join-section" style="background: var(--pink);">
+    <h1>{{ title }}</h1>
+    <p>{{ body|linebreaks }}</p>
+
+    <div style="margin-top:2rem;">
+        <a href="mailto:hello@stiwdiodyfi.com" class="btn">Email Us</a>
+    </div>
+</section>
+
+{% endblock %}

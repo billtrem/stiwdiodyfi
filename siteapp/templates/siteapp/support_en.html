@@ -1,0 +1,29 @@
+{% extends "siteapp/base.html" %}
+{% block content %}
+
+<section class="section support-section" style="background: var(--blue); color:white;">
+    <h1>{{ support_section.title_en }}</h1>
+    <p>{{ support_section.body_en|linebreaks }}</p>
+
+    {% if resources %}
+    <h2 style="margin-top:2rem;">Resources</h2>
+    <ul class="resources-list">
+        {% for r in resources %}
+            <li>
+                <strong>{{ r.title_en }}</strong>
+                {% if r.description_en %}
+                    <div class="resource-desc">{{ r.description_en }}</div>
+                {% endif %}
+
+                {% if r.file %}
+                    <a href="{{ r.file.url }}" target="_blank">Open file</a>
+                {% elif r.link %}
+                    <a href="{{ r.link }}" target="_blank">Open link</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</section>
+
+{% endblock %}

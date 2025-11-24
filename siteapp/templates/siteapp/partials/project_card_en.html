@@ -1,0 +1,68 @@
+<div class="project-card">
+    {% if project.poster_image %}
+        <img src="{{ project.poster_image.url }}" alt="{{ project.title_en }}" class="project-poster">
+    {% endif %}
+
+    <div class="project-content">
+        <h3>{{ project.title_en }}</h3>
+        <p class="project-date">{{ project.published_at }}</p>
+        <p>{{ project.description_en }}</p>
+
+        {% if project.link_en %}
+            <p><a href="{{ project.link_en }}" target="_blank" rel="noopener">Find out more</a></p>
+        {% endif %}
+
+        <div class="leaders">
+            {% if project.leader1_name %}
+                <div class="leader">
+                    {% if project.leader1_photo %}
+                        <img src="{{ project.leader1_photo.url }}" alt="{{ project.leader1_name }}" class="leader-photo">
+                    {% endif %}
+                    <div class="leader-text">
+                        <div class="leader-name">{{ project.leader1_name }}</div>
+                        {% if project.leader1_role %}
+                            <div class="leader-role">{{ project.leader1_role }}</div>
+                        {% endif %}
+                        {% if project.leader1_description %}
+                            <div class="leader-desc">{{ project.leader1_description }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if project.leader2_name %}
+                <div class="leader">
+                    {% if project.leader2_photo %}
+                        <img src="{{ project.leader2_photo.url }}" alt="{{ project.leader2_name }}" class="leader-photo">
+                    {% endif %}
+                    <div class="leader-text">
+                        <div class="leader-name">{{ project.leader2_name }}</div>
+                        {% if project.leader2_role %}
+                            <div class="leader-role">{{ project.leader2_role }}</div>
+                        {% endif %}
+                        {% if project.leader2_description %}
+                            <div class="leader-desc">{{ project.leader2_description }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if project.leader3_name %}
+                <div class="leader">
+                    {% if project.leader3_photo %}
+                        <img src="{{ project.leader3_photo.url }}" alt="{{ project.leader3_name }}" class="leader-photo">
+                    {% endif %}
+                    <div class="leader-text">
+                        <div class="leader-name">{{ project.leader3_name }}</div>
+                        {% if project.leader3_role %}
+                            <div class="leader-role">{{ project.leader3_role }}</div>
+                        {% endif %}
+                        {% if project.leader3_description %}
+                            <div class="leader-desc">{{ project.leader3_description }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

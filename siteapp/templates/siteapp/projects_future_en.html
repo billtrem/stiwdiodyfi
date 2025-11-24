@@ -1,0 +1,18 @@
+{% extends "siteapp/base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="section">
+    <h1>Future Projects</h1>
+
+    {% if projects %}
+    <div class="projects-grid">
+        {% for project in projects %}
+            {% include "siteapp/partials/project_card_en.html" %}
+        {% endfor %}
+    </div>
+    {% else %}
+        <p>No future projects listed.</p>
+    {% endif %}
+</section>
+{% endblock %}

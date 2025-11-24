@@ -1,0 +1,77 @@
+{% extends "siteapp/base.html" %}
+{% load static %}
+{% block content %}
+
+
+{# BIG CLICKABLE ERA BLOCKS #}
+
+<a class="era-block era-current diag-right" href="{% url 'projects_present_en' %}">
+    <div class="era-shape circle"></div>
+    <div class="era-shape square"></div>
+    <div class="era-inner">
+        <div class="era-title">Current</div>
+        <div class="era-sub">What we’re making right now. Fresh work, active collaborations, new energy.</div>
+        <div class="era-cta">View all current projects →</div>
+    </div>
+</a>
+
+<a class="era-block era-past diag-left" href="{% url 'projects_past_en' %}">
+    <div class="era-shape circle"></div>
+    <div class="era-shape tri"></div>
+    <div class="era-inner">
+        <div class="era-title">Past</div>
+        <div class="era-sub">What we’ve grown from — archives, lessons, and previous adventures.</div>
+        <div class="era-cta">View all past projects →</div>
+    </div>
+</a>
+
+<a class="era-block era-future diag-right" href="{% url 'projects_future_en' %}">
+    <div class="era-shape square"></div>
+    <div class="era-shape tri"></div>
+    <div class="era-inner">
+        <div class="era-title">Future</div>
+        <div class="era-sub">Ideas on the horizon. Dreams we’re inviting others to help build.</div>
+        <div class="era-cta">View all future projects →</div>
+    </div>
+</a>
+
+<section id="join" class="section join-section">
+    {% if join_section %}
+        <h2>{{ join_section.title_en }}</h2>
+        <p>{{ join_section.body_en|linebreaks }}</p>
+    {% else %}
+        <h2>Join us</h2>
+        <p>Set up Join content in admin under InfoSections.</p>
+    {% endif %}
+</section>
+
+<section id="support" class="section support-section">
+    {% if support_section %}
+        <h2>{{ support_section.title_en }}</h2>
+        <p>{{ support_section.body_en|linebreaks }}</p>
+    {% else %}
+        <h2>Support</h2>
+        <p>Set up Support content in admin under InfoSections.</p>
+    {% endif %}
+
+    {% if resources %}
+        <h3>Resources</h3>
+        <ul class="resources-list">
+            {% for r in resources %}
+                <li>
+                    <strong>{{ r.title_en }}</strong>
+                    {% if r.description_en %}
+                        <div class="resource-desc">{{ r.description_en }}</div>
+                    {% endif %}
+                    {% if r.file %}
+                        <a href="{{ r.file.url }}" target="_blank" rel="noopener">Open file</a>
+                    {% elif r.link %}
+                        <a href="{{ r.link }}" target="_blank" rel="noopener">Visit link</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</section>
+
+{% endblock %}

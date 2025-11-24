@@ -1,19 +1,18 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-import dj_database_url   # <-- needed for Railway PostgreSQL
+import dj_database_url
 
 # ---------------------------------------------------------
 # BASE DIR
 # ---------------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Load environment variables from .env (local only)
 if os.environ.get("RAILWAY_ENV") != "production":
     load_dotenv(BASE_DIR / ".env")
 
 # ---------------------------------------------------------
-# BASIC SECURITY
+# SECURITY
 # ---------------------------------------------------------
 SECRET_KEY = os.getenv("SECRET_KEY", "dev-key-change-this")
 DEBUG = os.getenv("DEBUG", "True") == "True"
@@ -47,7 +46,6 @@ INSTALLED_APPS = [
     "cloudinary",
     "cloudinary_storage",
 
-    # Main app
     "siteapp",
 ]
 
@@ -88,7 +86,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "stiwdiodyfi.wsgi.application"
 
 # ---------------------------------------------------------
-# DATABASE (POSTGRES on Railway, SQLITE locally)
+# DATABASE
 # ---------------------------------------------------------
 DATABASE_URL = os.getenv("DATABASE_URL")
 
@@ -97,7 +95,7 @@ if DATABASE_URL:
         "default": dj_database_url.parse(
             DATABASE_URL,
             conn_max_age=600,
-            ssl_require=True
+            ssl_require=True,
         )
     }
 else:
@@ -114,6 +112,10 @@ else:
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+STATICFILES_DIRS = [
+    BASE_DIR / "siteapp" / "static",
+]
+
 # ---------------------------------------------------------
 # MEDIA — CLOUDINARY
 # ---------------------------------------------------------
@@ -123,6 +125,7 @@ CLOUDINARY_STORAGE = {
     "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
 }
 
+# ⭐ THIS is what makes uploads go to Cloudinary ⭐
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 MEDIA_URL = "/media/"

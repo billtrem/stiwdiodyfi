@@ -1,0 +1,29 @@
+{% extends "siteapp/base.html" %}
+{% block content %}
+
+<section class="section support-section" style="background: var(--blue); color:white;">
+    <h1>{{ support_section.title_cy }}</h1>
+    <p>{{ support_section.body_cy|linebreaks }}</p>
+
+    {% if resources %}
+    <h2 style="margin-top:2rem;">Adnoddau</h2>
+    <ul class="resources-list">
+        {% for r in resources %}
+            <li>
+                <strong>{{ r.title_cy }}</strong>
+                {% if r.description_cy %}
+                    <div class="resource-desc">{{ r.description_cy }}</div>
+                {% endif %}
+
+                {% if r.file %}
+                    <a href="{{ r.file.url }}" target="_blank">Agor ffeil</a>
+                {% elif r.link %}
+                    <a href="{{ r.link }}" target="_blank">Agor dolen</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</section>
+
+{% endblock %}

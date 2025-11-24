@@ -1,0 +1,76 @@
+{% extends "siteapp/base.html" %}
+{% load static %}
+{% block content %}
+
+
+
+<a class="era-block era-current diag-right" href="{% url 'projects_present_cy' %}">
+    <div class="era-shape circle"></div>
+    <div class="era-shape square"></div>
+    <div class="era-inner">
+        <div class="era-title">Presennol</div>
+        <div class="era-sub">Beth rydym yn ei greu nawr. Gwaith byw, cydweithio, egni newydd.</div>
+        <div class="era-cta">Gweld y prosiectau presennol →</div>
+    </div>
+</a>
+
+<a class="era-block era-past diag-left" href="{% url 'projects_past_cy' %}">
+    <div class="era-shape circle"></div>
+    <div class="era-shape tri"></div>
+    <div class="era-inner">
+        <div class="era-title">Gorffennol</div>
+        <div class="era-sub">Beth rydym wedi’i wneud — archif, profiad, a straeon blaenorol.</div>
+        <div class="era-cta">Gweld prosiectau’r gorffennol →</div>
+    </div>
+</a>
+
+<a class="era-block era-future diag-right" href="{% url 'projects_future_cy' %}">
+    <div class="era-shape square"></div>
+    <div class="era-shape tri"></div>
+    <div class="era-inner">
+        <div class="era-title">Dyfodol</div>
+        <div class="era-sub">Syniadau ar y gorwel. Breuddwydion rydyn ni’n eu hadeiladu gyda phobl eraill.</div>
+        <div class="era-cta">Gweld prosiectau’r dyfodol →</div>
+    </div>
+</a>
+
+<section id="join" class="section join-section">
+    {% if join_section %}
+        <h2>{{ join_section.title_cy }}</h2>
+        <p>{{ join_section.body_cy|linebreaks }}</p>
+    {% else %}
+        <h2>Ymunwch â ni</h2>
+        <p>Gosodwch gynnwys Ymuno yn yr admin o dan InfoSections.</p>
+    {% endif %}
+</section>
+
+<section id="support" class="section support-section">
+    {% if support_section %}
+        <h2>{{ support_section.title_cy }}</h2>
+        <p>{{ support_section.body_cy|linebreaks }}</p>
+    {% else %}
+        <h2>Cefnogi</h2>
+        <p>Gosodwch gynnwys Cefnogi yn yr admin o dan InfoSections.</p>
+    {% endif %}
+
+    {% if resources %}
+        <h3>Adnoddau</h3>
+        <ul class="resources-list">
+            {% for r in resources %}
+                <li>
+                    <strong>{{ r.title_cy }}</strong>
+                    {% if r.description_cy %}
+                        <div class="resource-desc">{{ r.description_cy }}</div>
+                    {% endif %}
+                    {% if r.file %}
+                        <a href="{{ r.file.url }}" target="_blank" rel="noopener">Agor ffeil</a>
+                    {% elif r.link %}
+                        <a href="{{ r.link }}" target="_blank" rel="noopener">Agor dolen</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</section>
+
+{% endblock %}
