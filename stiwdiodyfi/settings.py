@@ -1,14 +1,16 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import dj_database_url   # <-- needed for Railway PostgreSQL
 
 # ---------------------------------------------------------
 # BASE DIR
 # ---------------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Load environment variables from .env
-load_dotenv(BASE_DIR / ".env")
+# Load environment variables from .env (local only)
+if os.environ.get("RAILWAY_ENV") != "production":
+    load_dotenv(BASE_DIR / ".env")
 
 # ---------------------------------------------------------
 # BASIC SECURITY
@@ -16,7 +18,19 @@ load_dotenv(BASE_DIR / ".env")
 SECRET_KEY = os.getenv("SECRET_KEY", "dev-key-change-this")
 DEBUG = os.getenv("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = ["*",]   # allow everything for now
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "stiwdiodyfi.com",
+    "www.stiwdiodyfi.com",
+    ".railway.app",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://stiwdiodyfi.com",
+    "https://www.stiwdiodyfi.com",
+    "https://*.railway.app",
+]
 
 # ---------------------------------------------------------
 # INSTALLED APPS
@@ -58,7 +72,7 @@ ROOT_URLCONF = "stiwdiodyfi.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],  # <— USES /templates
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -74,19 +88,30 @@ TEMPLATES = [
 WSGI_APPLICATION = "stiwdiodyfi.wsgi.application"
 
 # ---------------------------------------------------------
-# DATABASE (SQLite for simple site)
+# DATABASE (POSTGRES on Railway, SQLITE locally)
 # ---------------------------------------------------------
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if DATABASE_URL:
+    DATABASES = {
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True
+        )
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 # ---------------------------------------------------------
 # STATIC FILES
 # ---------------------------------------------------------
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # ---------------------------------------------------------
