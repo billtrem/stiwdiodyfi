@@ -1,0 +1,11 @@
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+startCommand = "gunicorn stiwdiodyfi.wsgi:application --bind 0.0.0.0:8000"
+numReplicas = 1
+
+releaseCommand = """
+python manage.py migrate &&
+python manage.py create_admin
+"""
