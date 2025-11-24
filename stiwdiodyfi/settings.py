@@ -8,14 +8,23 @@ import dj_database_url
 # ---------------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-if os.environ.get("RAILWAY_ENV") != "production":
+# ---------------------------------------------------------
+# ENVIRONMENT DETECTION
+# ---------------------------------------------------------
+# Railway does NOT set RAILWAY_ENV, so we detect production by DATABASE_URL existing
+ON_RAILWAY = bool(os.getenv("RAILWAY_PUBLIC_DOMAIN")) or bool(os.getenv("DATABASE_URL"))
+
+# Load .env ONLY if running locally (only when file exists)
+if os.path.exists(BASE_DIR / ".env"):
     load_dotenv(BASE_DIR / ".env")
 
 # ---------------------------------------------------------
 # SECURITY
 # ---------------------------------------------------------
-SECRET_KEY = os.getenv("SECRET_KEY", "dev-key-change-this")
-DEBUG = os.getenv("DEBUG", "True") == "True"
+SECRET_KEY = os.getenv("SECRET_KEY", "local-dev-key-change-this")
+
+# Production = DEBUG OFF always
+DEBUG = not ON_RAILWAY and os.getenv("DEBUG", "True") == "True"
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
@@ -42,7 +51,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    # Cloudinary
     "cloudinary",
     "cloudinary_storage",
 
@@ -54,8 +62,9 @@ INSTALLED_APPS = [
 # ---------------------------------------------------------
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
+
+    "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -86,7 +95,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "stiwdiodyfi.wsgi.application"
 
 # ---------------------------------------------------------
-# DATABASE
+# DATABASE CONFIG
 # ---------------------------------------------------------
 DATABASE_URL = os.getenv("DATABASE_URL")
 
@@ -111,10 +120,7 @@ else:
 # ---------------------------------------------------------
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-
-STATICFILES_DIRS = [
-    BASE_DIR / "siteapp" / "static",
-]
+STATICFILES_DIRS = [BASE_DIR / "siteapp" / "static"]
 
 # ---------------------------------------------------------
 # MEDIA — CLOUDINARY
@@ -125,10 +131,23 @@ CLOUDINARY_STORAGE = {
     "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
 }
 
-# ⭐ THIS is what makes uploads go to Cloudinary ⭐
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 MEDIA_URL = "/media/"
+
+# ---------------------------------------------------------
+# SECURITY HARDENING (Production only)
+# ---------------------------------------------------------
+if ON_RAILWAY:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = "DENY"
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
 
 # ---------------------------------------------------------
 # AUTO FIELD
