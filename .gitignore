@@ -1,0 +1,78 @@
+# --- Django / Python ------------------------------------
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environment
+venv/
+ENV/
+env/
+
+# Django local SQLite database
+db.sqlite3
+
+# Django secret keys
+.env
+
+# Django static files output
+staticfiles/
+static/
+
+# Media (Cloudinary handles storage, do not store local uploads)
+media/
+
+# Unit test / coverage
+htmlcov/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+*.hypothesis/
+
+# IPython
+.ipynb_checkpoints
+
+# Migration artifacts
+*.dist-info/
+
+# --- Editor / OS Files -----------------------------------
+
+# VSCode
+.vscode/
+.settings/
+
+# PyCharm / JetBrains
+.idea/
+*.iml
+
+# macOS crap
+.DS_Store
+
+# Windows crap
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- Node / Build tools (if used later) -------------------
+
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# --- Logs --------------------------------------------------
+
+*.log
+
+# --- Cloud providers caches --------------------------------
+
+# Cloudinary local cache dirs (if any appear)
+.cloudinary/
