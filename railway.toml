@@ -4,8 +4,12 @@ builder = "NIXPACKS"
 [deploy]
 numReplicas = 1
 
-# Gunicorn must run from the venv created by Nixpacks
-startCommand = "/opt/venv/bin/gunicorn stiwdiodyfi.wsgi:application --bind 0.0.0.0:8000"
+# Run Django migrations + create admin user + collect static files
+releaseCommand = """
+/opt/venv/bin/python manage.py migrate && \
+/opt/venv/bin/python manage.py create_admin && \
+/opt/venv/bin/python manage.py collectstatic --noinput
+"""
 
-# Release: MUST use && or the container crashes
-releaseCommand = "/opt/venv/bin/python manage.py migrate && /opt/venv/bin/python manage.py create_admin"
+# Start Gunicorn from the Nixpacks virtual environment
+startCommand = "/opt/venv/bin/gunicorn stiwdiodyfi.wsgi:application --bind 0.0.0.0:8000"

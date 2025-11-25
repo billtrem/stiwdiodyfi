@@ -11,10 +11,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ---------------------------------------------------------
 # ENVIRONMENT DETECTION
 # ---------------------------------------------------------
-# Railway does NOT set RAILWAY_ENV, so we detect production by DATABASE_URL existing
 ON_RAILWAY = bool(os.getenv("RAILWAY_PUBLIC_DOMAIN")) or bool(os.getenv("DATABASE_URL"))
 
-# Load .env ONLY if running locally (only when file exists)
+# Load .env ONLY locally
 if os.path.exists(BASE_DIR / ".env"):
     load_dotenv(BASE_DIR / ".env")
 
@@ -23,7 +22,6 @@ if os.path.exists(BASE_DIR / ".env"):
 # ---------------------------------------------------------
 SECRET_KEY = os.getenv("SECRET_KEY", "local-dev-key-change-this")
 
-# Production = DEBUG OFF always
 DEBUG = not ON_RAILWAY and os.getenv("DEBUG", "True") == "True"
 
 ALLOWED_HOSTS = [
@@ -62,8 +60,8 @@ INSTALLED_APPS = [
 # ---------------------------------------------------------
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",   # STATIC FIX FOR RAILWAY
     "django.middleware.common.CommonMiddleware",
-
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -122,6 +120,9 @@ STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "siteapp" / "static"]
 
+# 🔥 IMPORTANT: WHITENOISE STATIC STORAGE
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 # ---------------------------------------------------------
 # MEDIA — CLOUDINARY
 # ---------------------------------------------------------
@@ -132,17 +133,14 @@ CLOUDINARY_STORAGE = {
 }
 
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-
 MEDIA_URL = "/media/"
 
 # ---------------------------------------------------------
 # SECURITY HARDENING (Production only)
 # ---------------------------------------------------------
 if ON_RAILWAY:
-    # Important: Railway receives HTTP from Cloudflare → do NOT force HTTPS here
-    SECURE_SSL_REDIRECT = False  
+    SECURE_SSL_REDIRECT = False  # Prevent infinite redirect loop
 
-    # These are still safe because they don't cause redirect loops
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
