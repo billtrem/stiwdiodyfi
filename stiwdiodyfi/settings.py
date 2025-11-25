@@ -60,7 +60,7 @@ INSTALLED_APPS = [
 # ---------------------------------------------------------
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",   # STATIC FIX FOR RAILWAY
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # STATIC FIX FOR RAILWAY
     "django.middleware.common.CommonMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -118,9 +118,12 @@ else:
 # ---------------------------------------------------------
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = []
 
-# 🔥 IMPORTANT: WHITENOISE STATIC STORAGE
+# IMPORTANT: This is where your CSS/IMG actually live
+STATICFILES_DIRS = [
+    BASE_DIR / "siteapp" / "static",
+]
+
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # ---------------------------------------------------------
@@ -139,7 +142,7 @@ MEDIA_URL = "/media/"
 # SECURITY HARDENING (Production only)
 # ---------------------------------------------------------
 if ON_RAILWAY:
-    SECURE_SSL_REDIRECT = False  # Prevent infinite redirect loop
+    SECURE_SSL_REDIRECT = False  # Prevent infinite Cloudflare redirect loop
 
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
