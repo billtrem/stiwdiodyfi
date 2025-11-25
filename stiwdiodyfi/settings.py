@@ -139,7 +139,10 @@ MEDIA_URL = "/media/"
 # SECURITY HARDENING (Production only)
 # ---------------------------------------------------------
 if ON_RAILWAY:
-    SECURE_SSL_REDIRECT = True
+    # Important: Railway receives HTTP from Cloudflare → do NOT force HTTPS here
+    SECURE_SSL_REDIRECT = False  
+
+    # These are still safe because they don't cause redirect loops
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
