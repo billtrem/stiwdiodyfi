@@ -118,7 +118,7 @@ else:
 # ---------------------------------------------------------
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [BASE_DIR / "siteapp" / "static"]
+STATICFILES_DIRS = []
 
 # 🔥 IMPORTANT: WHITENOISE STATIC STORAGE
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
