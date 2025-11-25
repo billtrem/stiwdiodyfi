@@ -119,7 +119,7 @@ else:
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# IMPORTANT: This is where your CSS/IMG actually live
+# ⭐ THIS WAS MISSING — AND THIS IS WHY STATIC FILES WERE 404 ⭐
 STATICFILES_DIRS = [
     BASE_DIR / "siteapp" / "static",
 ]
