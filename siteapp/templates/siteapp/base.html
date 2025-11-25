@@ -6,7 +6,8 @@
     <title>Stiwdio Dyfi</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <!-- Correct static file path -->
+    <link rel="stylesheet" href="{% static 'siteapp/style.css' %}">
 </head>
 <body>
 
@@ -14,9 +15,8 @@
 
     <!-- Logo -->
     <div class="logo">
-        <img src="{% static 'stiwdio_dyfi_logo.png' %}" alt="Stiwdio Dyfi Logo">
+        <img src="{% static 'siteapp/stiwdio_dyfi_logo.png' %}" alt="Stiwdio Dyfi Logo">
     </div>
-
 
     <!-- Navigation -->
     <nav class="top-nav" id="navMenu">
@@ -48,7 +48,6 @@
     </div>
 
 </header>
-
 
 <main>
     {% block content %}{% endblock %}
