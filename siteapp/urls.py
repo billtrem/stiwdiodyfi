@@ -5,6 +5,9 @@ from siteapp import views
 urlpatterns = [
     path("admin/", admin.site.urls),
 
+    # Healthcheck (prevents redirect loops on Railway)
+    path("health/", views.healthcheck, name="healthcheck"),
+
     # Landing
     path("", views.language_landing, name="language_landing"),
 
@@ -22,11 +25,13 @@ urlpatterns = [
     path("cy/join/", views.join_cy, name="join_cy"),
     path("cy/support/", views.support_cy, name="support_cy"),
 
-    # Project listings
-    path("en/projects/past/", views.projects_past, name="projects_past_en"),
-    path("en/projects/present/", views.projects_present, name="projects_present_en"),
-    path("en/projects/future/", views.projects_future, name="projects_future_en"),
+    # Project listings (EN)
+    path("en/projects/past/", views.projects_past_en, name="projects_past_en"),
+    path("en/projects/present/", views.projects_present_en, name="projects_present_en"),
+    path("en/projects/future/", views.projects_future_en, name="projects_future_en"),
 
-    path("cy/projects/past/", views.projects_past, name="projects_past_cy"),
-    path("cy/projects/present/", views.projects_present, name="projects_present_cy"),
-    path("cy/projects/future/", views.projects_future, name="projects_future_cy"),
+    # Project listings (CY)
+    path("cy/projects/past/", views.projects_past_cy, name="projects_past_cy"),
+    path("cy/projects/present/", views.projects_present_cy, name="projects_present_cy"),
+    path("cy/projects/future/", views.projects_future_cy, name="projects_future_cy"),
+]

@@ -228,24 +228,7 @@ body {
     gap: 0.6rem;
 }
 
-/* Zig-zag diagonal bottoms */
-.era-block::after{
-    content: "";
-    position: absolute;
-    left: 0; right: 0; bottom: -1px;
-    height: 80px;
-    background: inherit;
-    border-top: 4px solid var(--ink);
-    transform-origin: bottom;
-}
 
-.era-block.diag-right::after{
-    clip-path: polygon(0 0, 100% 100%, 0 100%);
-}
-
-.era-block.diag-left::after{
-    clip-path: polygon(100% 0, 100% 100%, 0 100%);
-}
 
 /* Colours */
 .era-current { background: var(--yellow); }
@@ -425,5 +408,26 @@ body {
 
     .lang-switch {
         display: none;
+    }
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE SAFE PADDING (fixes edge-touching)
+--------------------------------------------------------- */
+@media (max-width: 720px) {
+    body {
+        padding: 0 0.75rem; /* ~12px on each side */
+    }
+
+    .section,
+    .era-block,
+    .projects-grid,
+    .project-card,
+    .join-section,
+    .support-section,
+    .info-section {
+        margin-left: 0.25rem;
+        margin-right: 0.25rem;
     }
 }

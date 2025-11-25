@@ -1,5 +1,13 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from .models import Project, InfoSection, Resource
+
+
+# -----------------------------
+# HEALTHCHECK (prevents redirect loops on Railway)
+# -----------------------------
+def healthcheck(request):
+    return HttpResponse("OK")
 
 
 def language_landing(request):
@@ -21,7 +29,6 @@ def _get_info_sections():
 # -----------------------------
 # HOME PAGES
 # -----------------------------
-
 def home_en(request):
     info_section, join_section, support_section = _get_info_sections()
 
@@ -57,7 +64,6 @@ def home_cy(request):
 # -----------------------------
 # PROJECT LIST PAGES (ENGLISH)
 # -----------------------------
-
 def projects_past_en(request):
     return render(request, "siteapp/projects_past_en.html", {
         "language": "en",
@@ -82,7 +88,6 @@ def projects_future_en(request):
 # -----------------------------
 # PROJECT LIST PAGES (WELSH)
 # -----------------------------
-
 def projects_past_cy(request):
     return render(request, "siteapp/projects_past_cy.html", {
         "language": "cy",
@@ -107,7 +112,6 @@ def projects_future_cy(request):
 # -----------------------------
 # INFO PAGES
 # -----------------------------
-
 def info_en(request):
     info, join, support = _get_info_sections()
     return render(request, "siteapp/info_en.html", {
@@ -129,7 +133,6 @@ def info_cy(request):
 # -----------------------------
 # JOIN PAGES
 # -----------------------------
-
 def join_en(request):
     info, join, support = _get_info_sections()
     return render(request, "siteapp/join_en.html", {
@@ -151,7 +154,6 @@ def join_cy(request):
 # -----------------------------
 # SUPPORT PAGES
 # -----------------------------
-
 def support_en(request):
     info, join, support = _get_info_sections()
     return render(request, "siteapp/support_en.html", {
