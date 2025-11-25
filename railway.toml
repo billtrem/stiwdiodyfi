@@ -6,13 +6,9 @@ providers = ["python"]
 
 [deploy]
 numReplicas = 1
-
-# Run migrate + create_admin + collectstatic every deploy
+startCommand = "gunicorn stiwdiodyfi.wsgi:application --bind 0.0.0.0:$PORT"
 releaseCommand = """
 python manage.py migrate &&
 python manage.py create_admin &&
 python manage.py collectstatic --noinput
 """
-
-# Start Gunicorn (always required)
-startCommand = "gunicorn stiwdiodyfi.wsgi:application --bind 0.0.0.0:$PORT"
